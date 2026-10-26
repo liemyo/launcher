@@ -697,13 +697,16 @@ function renderHome(){if(S.mode!=='ipad')return;pageGrid($('#homePages'),$('#hom
 
 /* ---------- dock ---------- */
 let dockSize=50;
+const probe=Object.assign(document.createElement('div'),{style:'position:fixed;visibility:hidden;pointer-events:none;padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px)'});
+document.body.append(probe);
+const safeX=()=>{const c=getComputedStyle(probe);return 2*Math.max(parseFloat(c.paddingLeft)||0,parseFloat(c.paddingRight)||0)};
 function renderDock(){
  const d=$('#dock');d.innerHTML='';
  const ids=S.dock.filter(A);
  const rec=S.recent.filter(id=>A(id)&&!ids.includes(id)).slice(0,S.mode==='mac'?2:3);
  const items=[...ids.map(id=>({id})),...(rec.length?[{sep:1}]:[]),...rec.map(id=>({id}))];
  const ipad=S.mode==='ipad',gap=ipad?14:7,pad=ipad?24:14;
- const avail=innerWidth-(parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--sl'))||0)*2-24-pad;
+ const avail=innerWidth-safeX()-24-pad;
  const n=items.filter(i=>!i.sep).length,seps=items.length-n;
  const want=ipad?Math.round(S.dockSize*1.12):S.dockSize;
  dockSize=Math.max(28,Math.min(want,Math.floor((avail-seps*(gap+5)-(n-1)*gap)/Math.max(1,n))));
