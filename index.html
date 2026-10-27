@@ -1132,5 +1132,6 @@ const op=Q.get('open');
 if(op)setTimeout(()=>{op.split(',').forEach(o=>({launchpad:openLaunchpad,spot:openSpot,cc:openCC})[o]?.()||openWin(o));if(Q.get('q')){$('#spq').value=Q.get('q');renderSpot()}},300);
 if(Q.get('edit'))setTimeout(()=>editApp(Q.get('edit')==='new'?null:Q.get('edit')),300);
 </script>
+<script src="/awan.js" defer></script>
 </body>
 </html>
